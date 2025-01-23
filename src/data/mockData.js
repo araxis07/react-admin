@@ -78,8 +78,8 @@ export const mockDataTeam = [
 export const mockDataContacts = [
   {
     id: 1,
-    name: "Jon Snow",
-    email: "jonsnow@gmail.com",
+    name: "Yoloman",
+    email: "Yoloman@gmail.com",
     age: 35,
     phone: "(665)121-5454",
     address: "0912 Won Street, Alabama, SY 10001",
