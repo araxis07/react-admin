@@ -13,28 +13,30 @@ const GeographyChart = ({ isDashboard = false }) => {
       theme={{
         axis: {
           domain: {
-            line: {
-              stroke: colors.grey[100],
-            },
+            line: { stroke: colors.grey[100] },
           },
           legend: {
-            text: {
-              fill: colors.grey[100],
-            },
+            text: { fill: colors.grey[100] },
           },
           ticks: {
             line: {
               stroke: colors.grey[100],
               strokeWidth: 1,
             },
-            text: {
-              fill: colors.grey[100],
-            },
+            text: { fill: colors.grey[100] },
           },
         },
         legends: {
-          text: {
-            fill: colors.grey[100],
+          text: { fill: colors.grey[100] },
+        },
+        // กำหนดค่าของ Tooltip ให้ชัดเจนใน dark mode
+        tooltip: {
+          container: {
+            background: colors.primary[400], // สีพื้นหลังที่เข้ม
+            color: colors.grey[100],          // สีตัวอักษรที่สว่าง
+            fontSize: 12,
+            padding: "5px",
+            borderRadius: "4px",
           },
         },
       }}

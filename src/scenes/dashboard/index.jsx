@@ -17,6 +17,18 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  // ฟังก์ชันเพื่อสั่งดาวน์โหลดไฟล์จากโฟลเดอร์ public
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    // กำหนด path ของไฟล์ใน public
+    link.href = "/report.xlxs";
+    // ชื่อไฟล์ที่จะถูกดาวน์โหลด
+    link.download = "report.xlxs";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -32,6 +44,8 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            // เรียกใช้งานฟังก์ชัน handleDownload เมื่อกดปุ่ม
+            onClick={handleDownload}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
@@ -133,7 +147,7 @@ const Dashboard = () => {
           <Box
             mt="25px"
             p="0 30px"
-            display="flex "
+            display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
@@ -176,7 +190,7 @@ const Dashboard = () => {
             justifyContent="space-between"
             alignItems="center"
             borderBottom={`4px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
+            color={colors.grey[100]}
             p="15px"
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
@@ -266,7 +280,7 @@ const Dashboard = () => {
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          padding="30px"
+          p="30px"
         >
           <Typography
             variant="h5"
