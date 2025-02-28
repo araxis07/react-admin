@@ -1,4 +1,7 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+/**************************************
+ *  Dashboard/index.jsx (ฉบับเต็ม)
+ **************************************/
+import { Box, Button, IconButton, Typography, useTheme, Tooltip } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -17,12 +20,10 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // ฟังก์ชันเพื่อสั่งดาวน์โหลดไฟล์จากโฟลเดอร์ public
+  // ฟังก์ชันดาวน์โหลดไฟล์จากโฟลเดอร์ public
   const handleDownload = () => {
     const link = document.createElement("a");
-    // กำหนด path ของไฟล์ใน public
-    link.href = "/report.xlxs";
-    // ชื่อไฟล์ที่จะถูกดาวน์โหลด
+    link.href = "/report.xlxs"; // ไฟล์ต้องอยู่ใน public/report.xlxs
     link.download = "report.xlxs";
     document.body.appendChild(link);
     link.click();
@@ -36,6 +37,7 @@ const Dashboard = () => {
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
 
         <Box>
+          {/* ปุ่ม Download Reports */}
           <Button
             sx={{
               backgroundColor: colors.blueAccent[700],
@@ -44,7 +46,6 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
-            // เรียกใช้งานฟังก์ชัน handleDownload เมื่อกดปุ่ม
             onClick={handleDownload}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -152,11 +153,7 @@ const Dashboard = () => {
             alignItems="center"
           >
             <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
+              <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
                 Revenue Generated
               </Typography>
               <Typography
@@ -167,8 +164,9 @@ const Dashboard = () => {
                 ฿3,250,300
               </Typography>
             </Box>
+            {/* ไอคอน Download (เรียก handleDownload เมื่อกด) */}
             <Box>
-              <IconButton>
+              <IconButton onClick={handleDownload}>
                 <DownloadOutlinedIcon
                   sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
                 />
@@ -179,6 +177,7 @@ const Dashboard = () => {
             <LineChart isDashboard={true} />
           </Box>
         </Box>
+
         <Box
           gridColumn="span 4"
           gridRow="span 2"
@@ -243,13 +242,15 @@ const Dashboard = () => {
           <Typography variant="h5" fontWeight="600">
             Campaign
           </Typography>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
-          >
-            <ProgressCircle size="125" />
+          <Box display="flex" flexDirection="column" alignItems="center" mt="25px">
+            {/* ใช้ Tooltip ครอบ ProgressCircle */}
+            <Tooltip title="2,500,000 revenue generated" arrow>
+              <Box>
+                {/* สามารถส่งค่า progress={0.8} หรืออื่น ๆ ได้ */}
+                <ProgressCircle size="125" progress={0.8} />
+              </Box>
+            </Tooltip>
+
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
@@ -260,6 +261,7 @@ const Dashboard = () => {
             <Typography>Includes extra misc expenditures and costs</Typography>
           </Box>
         </Box>
+
         <Box
           gridColumn="span 4"
           gridRow="span 2"
@@ -276,6 +278,7 @@ const Dashboard = () => {
             <BarChart isDashboard={true} />
           </Box>
         </Box>
+
         <Box
           gridColumn="span 4"
           gridRow="span 2"

@@ -6,34 +6,29 @@ import { mockPieData as data } from "../data/mockData";
 const PieChart = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <ResponsivePie
       data={data}
       theme={{
         axis: {
-          domain: {
-            line: {
-              stroke: colors.grey[100],
-            },
-          },
-          legend: {
-            text: {
-              fill: colors.grey[100],
-            },
-          },
+          domain: { line: { stroke: colors.grey[100] } },
+          legend: { text: { fill: colors.grey[100] } },
           ticks: {
-            line: {
-              stroke: colors.grey[100],
-              strokeWidth: 1,
-            },
-            text: {
-              fill: colors.grey[100],
-            },
+            line: { stroke: colors.grey[100], strokeWidth: 1 },
+            text: { fill: colors.grey[100] },
           },
         },
         legends: {
-          text: {
-            fill: colors.grey[100],
+          text: { fill: colors.grey[100] },
+        },
+        tooltip: {
+          container: {
+            background: colors.primary[400], // พื้นหลัง tooltip
+            color: colors.grey[100],        // สีข้อความ tooltip
+            borderRadius: "4px",
+            boxShadow: "0 3px 9px rgba(0, 0, 0, 0.5)",
+            fontSize: "14px",
           },
         },
       }}
@@ -42,21 +37,32 @@ const PieChart = () => {
       padAngle={0.7}
       cornerRadius={3}
       activeOuterRadiusOffset={8}
-      borderColor={{
-        from: "color",
-        modifiers: [["darker", 0.2]],
-      }}
+      borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor={colors.grey[100]}
       arcLinkLabelsThickness={2}
       arcLinkLabelsColor={{ from: "color" }}
-      enableArcLabels={false}
-      arcLabelsRadiusOffset={0.4}
-      arcLabelsSkipAngle={7}
+      enableArcLabels={true}
+      arcLabel={(d) => `${d.value}`}
+      arcLabelsSkipAngle={0}
       arcLabelsTextColor={{
         from: "color",
         modifiers: [["darker", 2]],
       }}
+      /* ============ เพิ่ม Custom Tooltip ตรงนี้ ============ */
+      tooltip={({ datum: { label, value, color } }) => (
+        <div
+          style={{
+            padding: "6px 10px",
+            borderRadius: "4px",
+          }}
+        >
+          <strong style={{ color }}>{label}</strong>
+          <div>Value: {value}</div>
+        </div>
+      )}
+      /* ============================================== */
+
       defs={[
         {
           id: "dots",

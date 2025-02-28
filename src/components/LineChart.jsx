@@ -7,43 +7,70 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  // ตรวจสอบว่าเป็นโหมด dark หรือ light
+  const isDarkMode = theme.palette.mode === "dark";
+
+  // กำหนดสีต่าง ๆ ตามโหมด
+  const axisLineColor = isDarkMode ? "#fff" : "#000";   // สีแกน
+  const crosshairColor = isDarkMode ? "#fff" : "#000";  // สีเส้น crosshair
+  const tooltipBg = isDarkMode ? colors.primary[400] : "#fff"; // พื้นหลัง tooltip
+  const tooltipText = isDarkMode ? "#fff" : "#000";     // สีข้อความ tooltip
+
   return (
     <ResponsiveLine
       data={data}
+      /* ตั้งค่าธีมของ Nivo */
       theme={{
+        /* กำหนดสีของ axis (แกน) */
         axis: {
           domain: {
             line: {
-              stroke: colors.grey[100],
+              stroke: axisLineColor,
+              strokeWidth: 2,
             },
           },
           legend: {
             text: {
-              fill: colors.grey[100],
+              fill: axisLineColor,
             },
           },
           ticks: {
             line: {
-              stroke: colors.grey[100],
+              stroke: axisLineColor,
               strokeWidth: 1,
             },
             text: {
-              fill: colors.grey[100],
+              fill: axisLineColor,
             },
           },
         },
+        /* กำหนดสีตัวอักษร legend */
         legends: {
           text: {
-            fill: colors.grey[100],
+            fill: axisLineColor,
           },
         },
+        /* กำหนดสีเส้น crosshair */
+        crosshair: {
+          line: {
+            stroke: crosshairColor,
+            strokeWidth: 1,
+            strokeOpacity: 0.75,
+          },
+        },
+        /* กำหนดสีพื้นหลังและข้อความของ tooltip */
         tooltip: {
           container: {
-            color: colors.primary[500],
+            background: tooltipBg,
+            color: tooltipText,
+            borderRadius: "4px",
+            boxShadow: "0 3px 9px rgba(0, 0, 0, 0.5)",
+            fontSize: "14px",
           },
         },
       }}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
+      /* ตั้งค่าสีเส้นของ Line Chart */
+      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       xScale={{ type: "point" }}
       yScale={{
@@ -62,28 +89,29 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
+        legend: isDashboard ? undefined : "transportation",
         legendOffset: 36,
         legendPosition: "middle",
       }}
       axisLeft={{
         orient: "left",
-        tickValues: 5, // added
+        tickValues: 5,
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "count", // added
+        legend: isDashboard ? undefined : "count",
         legendOffset: -40,
         legendPosition: "middle",
       }}
-      enableGridX={false}
-      enableGridY={false}
+      /* ถ้าต้องการเส้น Grid เป็นสี axisLineColor ก็สามารถเปิดใช้งาน */
+      enableGridX={true}
+      enableGridY={true}
       pointSize={8}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
       pointBorderColor={{ from: "serieColor" }}
       pointLabelYOffset={-12}
-      useMesh={true}
+      useMesh={true}       // เปิด Mesh เพื่อตรวจจับ Hover
       legends={[
         {
           anchor: "bottom-right",

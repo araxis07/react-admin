@@ -11,31 +11,24 @@ const BarChart = ({ isDashboard = false }) => {
     <ResponsiveBar
       data={data}
       theme={{
-        // added
         axis: {
-          domain: {
-            line: {
-              stroke: colors.grey[100],
-            },
-          },
-          legend: {
-            text: {
-              fill: colors.grey[100],
-            },
-          },
+          domain: { line: { stroke: colors.grey[100] } },
+          legend: { text: { fill: colors.grey[100] } },
           ticks: {
-            line: {
-              stroke: colors.grey[100],
-              strokeWidth: 1,
-            },
-            text: {
-              fill: colors.grey[100],
-            },
+            line: { stroke: colors.grey[100], strokeWidth: 1 },
+            text: { fill: colors.grey[100] },
           },
         },
         legends: {
-          text: {
-            fill: colors.grey[100],
+          text: { fill: colors.grey[100] },
+        },
+        tooltip: {
+          container: {
+            background: colors.primary[400],
+            color: colors.grey[100],
+            borderRadius: "4px",
+            boxShadow: "0 3px 9px rgba(0, 0, 0, 0.5)",
+            fontSize: "14px",
           },
         },
       }}
@@ -76,7 +69,7 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "country", // changed
+        legend: isDashboard ? undefined : "country",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -84,17 +77,14 @@ const BarChart = ({ isDashboard = false }) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "food", // changed
+        legend: isDashboard ? undefined : "food",
         legendPosition: "middle",
         legendOffset: -40,
       }}
-      enableLabel={false}
+      enableLabel={true}
       labelSkipWidth={12}
       labelSkipHeight={12}
-      labelTextColor={{
-        from: "color",
-        modifiers: [["darker", 1.6]],
-      }}
+      labelTextColor={colors.grey[100]}
       legends={[
         {
           dataFrom: "keys",
@@ -112,17 +102,25 @@ const BarChart = ({ isDashboard = false }) => {
           effects: [
             {
               on: "hover",
-              style: {
-                itemOpacity: 1,
-              },
+              style: { itemOpacity: 1 },
             },
           ],
         },
       ]}
       role="application"
-      barAriaLabel={function (e) {
-        return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
-      }}
+      barAriaLabel={(e) =>
+        e.id + ": " + e.formattedValue + " in country: " + e.indexValue
+      }
+
+      /* ============ เพิ่ม Custom Tooltip ตรงนี้ ============ */
+      tooltip={({ id, value, color, indexValue }) => (
+        <div style={{ padding: "6px 10px", borderRadius: "4px" }}>
+          <strong style={{ color }}>{id}</strong>
+          <div>Country: {indexValue}</div>
+          <div>Value: {value}</div>
+        </div>
+      )}
+      /* ============================================== */
     />
   );
 };
