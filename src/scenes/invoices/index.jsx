@@ -7,38 +7,68 @@ import Header from "../../components/Header";
 const Invoices = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   const columns = [
-    { field: "id", headerName: "ID" },
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
+      align: "center",
+      headerAlign: "center",
       cellClassName: "name-column--cell",
     },
     {
       field: "phone",
       headerName: "Phone Number",
       flex: 1,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "email",
       headerName: "Email",
       flex: 1,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "cost",
       headerName: "Cost",
       flex: 1,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => (
-        <Typography color={colors.greenAccent[500]}>
-          {new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(params.row.cost)}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",    // จัดกึ่งกลางแนวตั้ง
+            justifyContent: "center",// จัดกึ่งกลางแนวนอน
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Typography color={colors.greenAccent[500]}>
+            {new Intl.NumberFormat("th-TH", {
+              style: "currency",
+              currency: "THB",
+            }).format(params.row.cost)}
+          </Typography>
+        </Box>
       ),
     },
     {
       field: "date",
       headerName: "Date",
       flex: 1,
+      align: "center",
+      headerAlign: "center",
     },
   ];
 
@@ -74,7 +104,11 @@ const Invoices = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+        <DataGrid
+          checkboxSelection
+          rows={mockDataInvoices}
+          columns={columns}
+        />
       </Box>
     </Box>
   );
